@@ -1,2 +1,3 @@
 # Text-Summarization-NodeJs
-Text Summarization Model built with Danfojs and Tensorflow
+
+Text Summarization Model built with NodeJs

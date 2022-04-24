@@ -1,0 +1,30 @@
+{
+  "name": "text-summarization-nodejs",
+  "version": "1.0.0",
+  "description": "Extractive Text Summarization with NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tunjii10/Text-Summarization-NodeJs.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "text",
+    "summarization"
+  ],
+  "author": "Favour Adetunji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tunjii10/Text-Summarization-NodeJs/issues"
+  },
+  "homepage": "https://github.com/Tunjii10/Text-Summarization-NodeJs#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3"
+  }
+}
