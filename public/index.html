@@ -6,69 +6,64 @@
   <link href="./main.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
-<body class="w-screen h-screen">
-    <header class="top-0 left-0 right-0 w-screen fixed bg-slate-300 shadow-xl px-4 py-4">
+<body class="w-screen h-screen font-serif text-lg">
+    <!-- Header Section -->
+    <header class="top-0 left-0 right-0 w-screen sticky bg-slate-300 shadow-lg px-4 py-4">
         <div class="flex flex-row">
             <div class="flex-auto text-2xl  md:text-4xl font-bold">
                 Text-Summarization with NodeJS
             </div>
-            <div class="flex-auto font-bold">
-                <div class="text-right pr-5">
-                    <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" type="button">
-                        <i class="uil uil-apps text-xl"></i>
-                    </button>
-                    <div id="dropdownDivider" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
-                          <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                          </li>
-                          <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                          </li>
-                        </ul>
-                    </div>
+            <div class="relative flex-auto font-bold">
+                <div class="text-right pt-5 pr-5 md:pt-0">
+                    <i class="uil uil-apps text-xl"></i>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- MAin section -->
     <main>
-        <div>
-            <div>
-              <div>
-                  <h2>
-                      Have a text you want to summarize. Just drop the text and chill while our summarizer does the work.
+        <div class="py-5 mx-3">
+            <!-- Grid for main section -->
+            <div  class="grid grid-cols-1 gap-7 justify-items-center content-center">
+              <div class="border-b border-solid border-indigo-600 pb-2">
+                  <h2 class="text-1xl">
+                      <em>Have a text you want to summarize. Just drop the text and chill while our summarizer does the work.</em>
                   </h2>
               </div>
-              <div id="text_to_summarize">
-                  <form>
-                      <Label>Drop Text here</Label>
-                      <input type="text">
-                      <button> Summarize</button>
+              <div id="text_to_summarize" class="">
+                  <form class="flex flex-col items-center gap-2">
+                      <Label class="text-1xl">Drop Text here</Label>
+                      <textarea  class="border border-solid border-indigo-600 mb-2" name="message" rows="10" cols="40">
+                      </textarea>
+                      <button class="border border-solid rounded border-indigo-600 bg-slate-300 p-1 hover:bg-slate-500 active:bg-slate-700">Summarize</button>
                   </form>
               </div>
               <div id="summary">
                   <div>
-                      <p>Here is your summarized Text</p>
+                      <p>Your summarized Text will appear below</p>
                       <div>
-                          <span>
+                          <div id="summary-text" class=" hidden border border-solid border-indigo-600 bg-slate-300">
       
-                          </span>
+                          </div>
                       </div>
                   </div>
               </div>
             </div>
         </div>
     </main>
-    <footer>
-        <ul>
+
+    <!-- Footer Section -->
+    <footer class="bg-zinc-200 bottom-o left-0 text-sm">
+        <ul class="flex flex-row justify-center gap-3 mb-3">
             <li>
-                <a href="#text_tot-summarize">Summarize Text</a>
+                <a href="#text_to_summarize" class="active:text-slate-700 hover:text-slate-500">Summarize Text</a>
             </li>
             <li>
-                <a href="summary">Your Summary</a>
+                <a href="#summary" class="active:text-slate-700 hover:text-slate-500">Your Summary</a>
             </li>
         </ul>
-        <p class="footer__copy"> &#169; Favour Adetunji. All rights reserved</p>
+        <p class="footer__copy text-center pb-5"> &#169; Favour Adetunji. All rights reserved</p>
     </footer>
   
 </body>
