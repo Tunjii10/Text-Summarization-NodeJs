@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Tunjii10/Text-Summarization-NodeJs#readme",
   "dependencies": {
+    "compute-cosine-similarity": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "natural": "^5.2.2",
