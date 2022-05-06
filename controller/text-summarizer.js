@@ -9,12 +9,12 @@ var similarity = require("compute-cosine-similarity");
 async function clean_text(req) {
   try {
     const { text } = req.body;
-
-    let tok_text = tokenizer.tokenize(text);
-    for (let val in tok_text) {
-      tok_text[val] = tok_text[val].replace(/[^a-zA-Z0-9]/g, " ");
+    let tok_text = [];
+    let orig_tok_text = tokenizer.tokenize(text);
+    for (let val in orig_tok_text) {
+      tok_text[val] = orig_tok_text[val].replace(/[^a-zA-Z0-9]/g, " ");
     }
-    return tok_text;
+    return [tok_text, orig_tok_text];
   } catch (e) {
     throw e;
   }
@@ -52,6 +52,14 @@ async function sentence_similarity(sent1, sent2, stop_words) {
     let words1 = tokenizerWord.tokenize(sent1);
     let words2 = tokenizerWord.tokenize(sent2);
 
+    for (let x in words1) {
+      words1[x] = words1[x].toLowerCase();
+    }
+
+    for (let x in words2) {
+      words2[x] = words2[x].toLowerCase();
+    }
+
     const all_words = [...new Set([...words1, ...words2])];
 
     let vector1 = nj.zeros([all_words.length]);
@@ -76,11 +84,58 @@ async function sentence_similarity(sent1, sent2, stop_words) {
   }
 }
 
+async function page_rank(sim_matrix) {
+  // constants
+  const damping = 0.85;
+  const min_diff = 0.00001;
+  const steps = 100;
+
+  let pr_vector = nj.ones([sim_matrix.length]);
+  let previous_pr = 0;
+  for (let val = 0; val < steps; val++) {
+    pr_vector = nj.multiply(
+      nj.dot(sim_matrix, pr_vector),
+      1 - damping + damping
+    );
+    if (Math.abs(previous_pr - nj.sum(pr_vector)) < min_diff) {
+      break;
+    } else {
+      previous_pr = nj.sum(pr_vector);
+    }
+  }
+  return pr_vector;
+}
+
+async function get_top_sentence(
+  pr_vector,
+  sentences,
+  number = Math.floor(sentences.length / 2)
+) {
+  let top_sentence = [];
+  let sorted_pr;
+  let pr_vector_arr = pr_vector.tolist();
+  if (pr_vector_arr) {
+    sorted_pr = sentences
+      .map((item, index) => [pr_vector_arr[index], item]) // add the args to sort by
+      .sort(([arg1], [arg2]) => arg1 - arg2) // sort by the args
+      .map(([, item]) => item); // extract the sorted items
+  }
+  sorted_pr.reverse();
+  for (let x = 0; x < number; x++) {
+    top_sentence.push(sorted_pr[x]);
+  }
+  return top_sentence;
+}
 async function text_summarizer(req, res) {
   try {
-    const cleaned_text = await clean_text(req);
+    const [cleaned_text, orig_text_sent] = await clean_text(req);
     const sent_sim_matrix = await build_similarity_matrix(cleaned_text, []);
-    res.json(sent_sim_matrix);
+    const page_vector = await page_rank(sent_sim_matrix);
+    const extracted_sentence = await get_top_sentence(
+      page_vector,
+      orig_text_sent
+    );
+    res.json(extracted_sentence);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
