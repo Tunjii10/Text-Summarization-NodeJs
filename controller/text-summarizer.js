@@ -1,6 +1,7 @@
 var express = require("express");
 var natural = require("natural");
 var nj = require("numjs");
+var stopwords_array = require("./stopword.js");
 var tokenizer = new natural.SentenceTokenizer();
 var tokenizerWord = new natural.WordTokenizer();
 var similarity = require("compute-cosine-similarity");
@@ -46,9 +47,6 @@ async function build_similarity_matrix(sent, stop_words) {
 
 async function sentence_similarity(sent1, sent2, stop_words) {
   try {
-    if (!stop_words) {
-      const stop_words = [];
-    }
     let words1 = tokenizerWord.tokenize(sent1);
     let words2 = tokenizerWord.tokenize(sent2);
 
@@ -121,6 +119,7 @@ async function get_top_sentence(
       .map(([, item]) => item); // extract the sorted items
   }
   sorted_pr.reverse();
+  console.log(sorted_pr);
   for (let x = 0; x < number; x++) {
     top_sentence.push(sorted_pr[x]);
   }
@@ -129,7 +128,10 @@ async function get_top_sentence(
 async function text_summarizer(req, res) {
   try {
     const [cleaned_text, orig_text_sent] = await clean_text(req);
-    const sent_sim_matrix = await build_similarity_matrix(cleaned_text, []);
+    const sent_sim_matrix = await build_similarity_matrix(
+      cleaned_text,
+      stopwords_array
+    );
     const page_vector = await page_rank(sent_sim_matrix);
     const extracted_sentence = await get_top_sentence(
       page_vector,
