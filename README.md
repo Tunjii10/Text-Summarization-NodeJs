@@ -29,3 +29,8 @@ Note: For summarizer to work well effectively the writeup must be formatted well
 
 Backend - Express, natural, numjs, compute-cosine-similarity<br/>
 Frontend - Html, Javascript, Tailwind
+
+## References
+
+https://medium.com/analytics-vidhya/text-summarization-in-python-using-extractive-method-including-end-to-end-implementation-2688b3fd1c8c
+https://medium.com/analytics-vidhya/sentence-extraction-using-textrank-algorithm-7f5c8fd568cd#:~:text=TextRank%20is%20an%20algorithm%20based,for%20Sentence%20Extraction%20in%20Python.
