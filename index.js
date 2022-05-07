@@ -6,6 +6,7 @@ const path = require("path");
 var app = express();
 const port = 3000;
 
+// server configurations
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

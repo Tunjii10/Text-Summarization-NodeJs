@@ -1,3 +1,4 @@
+// array of stopwords.
 let stopwords = [
   "0o",
   "0s",
